@@ -20,7 +20,7 @@ const Login: React.FC = () => {
         event.preventDefault();
         await signIn({ username, password })
         history.push('/dashboard')
-    }, [username, password]);
+    }, [username, password, history, signIn]);
     return (
         <>
             <Container className="mt-5">

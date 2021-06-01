@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Redirect, Route, RouteProps } from 'react-router';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
@@ -16,7 +16,7 @@ const PrivateRoutes: React.FC<RoutesPropsData> = ({ role, ...rest }) => {
             setPermissions(findRole);
         }
         loadRoles();
-    }, [])
+    }, [role])
     const { userLogged } = useAuth();
 
     if (!userLogged()){
