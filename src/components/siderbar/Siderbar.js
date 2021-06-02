@@ -1,4 +1,4 @@
-import './styles.css'
+import './siderbar.css'
 import logo from '../../assets/logo.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArchive, faBriefcase, faBuilding, faCalendarCheck, faFile, faHandshake, faHome, faMoneyBill, faPowerOff, faQuestion, faSignOutAlt, faTimes, faUserSecret, faWrench } from '@fortawesome/free-solid-svg-icons'
@@ -6,7 +6,7 @@ import { faArchive, faBriefcase, faBuilding, faCalendarCheck, faFile, faHandshak
 
 const Sidebar = ({sidebarOpen, closeSidebar}) => {
     return(
-        <div className={sidebarOpen ? "sidebar-responsive" : ""} id="sidebar">
+        <div className={sidebarOpen ? "sidebar_responsive" : ""} id="sidebar">
            <div className="sidebar__title">
                <div className="sidebar__img">
                    <img src={logo} alt="logo" />

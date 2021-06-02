@@ -4,7 +4,7 @@ import { Button, Col, Container, Form, Row } from 'react-bootstrap'
 import { faUserCircle as farFaUserCircle } from '@fortawesome/free-regular-svg-icons'*/
 import loginIcon from '../../images/user.svg'
 import uiImg from '../../images/login.svg';
-import './styles.css'
+import './login.css'
 import { useAuth } from '../../context/AuthContext';
 import { useHistory } from 'react-router';
 

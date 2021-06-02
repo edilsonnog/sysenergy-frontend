@@ -60,6 +60,6 @@
 
   @media only screen and (max-width: 480px) {
     .navbar__left {
-      display: nome;
+      display: none;
     }
   }

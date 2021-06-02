@@ -1,10 +1,11 @@
-import React, {useState} from 'react'
+import { useState } from 'react'
+import Main from '../../components/main/Main';
 import Navbar from '../../components/navbar/NavBar';
 import Sidebar from '../../components/siderbar/Siderbar';
-import './styles.css';
+import './dashboard.css';
 
 
-const Dashboard: React.FC = () => {
+const Dashboard = () => {
     const [sideBarOpen, setSidebarOpen] = useState(false);
 
     const openSidebar = () => {
@@ -13,11 +14,11 @@ const Dashboard: React.FC = () => {
     const closeSidebar = () => {
         setSidebarOpen(false);
     }
-    return(
-        <div className="container">
-            <Navbar  sideBarOpen={sideBarOpen} openSiderbar={openSidebar} />
-            <h1>SysEnergy Dashboard</h1>
-            <Sidebar sidebarOpen={sideBarOpen} closeSidebar={closeSidebar}/>
+    return (
+        <div className="dash_container">
+            <Navbar sideBarOpen={sideBarOpen} openSiderbar={openSidebar} />
+            <Main />
+            <Sidebar sidebarOpen={sideBarOpen} closeSidebar={closeSidebar} />
         </div>
     );
 };

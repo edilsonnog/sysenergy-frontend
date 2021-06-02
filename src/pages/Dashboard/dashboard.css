@@ -60,19 +60,18 @@ body {
   color: #3b9668;
 }
 
-.container {
+.dash_container {
   display: grid;
   height: 100vh;
-  grid-template-columns: 0.8fr 1fr 1fr 1fr;
+  /*grid-template-columns: 0.8fr 1fr 1fr 1fr;*/
   grid-template-rows: 0.2fr 3fr;
   grid-template-areas:
     "sidebar nav nav nav"
     "sidebar main main main";
-  /* grid-gap: 0.2rem; */
 }
 
 @media only screen and (maz-widht: 978px) {
-    .container{
+    .dash_container{
         grid-template-columns: 1fr;
         grid-template-rows: 0.2rf 3fr;
         grid-template-areas: 
