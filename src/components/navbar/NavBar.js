@@ -5,15 +5,15 @@ import { faBars, faClock, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
-const Navbar = ({ sideBarOpen, openSiderbar }) => {
+const Navbar = ({ sidebarOpen, openSiderbar }) => {
     return (
         <nav className="navbar">
-            <div className="nav_icon" onClick={() => openSiderbar}>
-                <i><FontAwesomeIcon icon={faBars}  /></i>
+            <div className="nav_icon" onClick={() => openSiderbar()}>
+                <i aria-hidden="true"><FontAwesomeIcon icon={faBars}  /></i>
             </div>
             <div className="navbar__left" >
-                <a href="#">Subscribers</a>
-                <a href="#">Video Management</a>
+                <a href="#">Produtos</a>
+                <a href="#">Usuários</a>
                 <a href="#" className="active_link" >Admin</a>
             </div>
             <div className="navbar__right">

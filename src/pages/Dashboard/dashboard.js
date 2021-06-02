@@ -6,19 +6,18 @@ import './dashboard.css';
 
 
 const Dashboard = () => {
-    const [sideBarOpen, setSidebarOpen] = useState(false);
-
+    const [sidebarOpen, setSidebarOpen] = useState(false);
     const openSidebar = () => {
         setSidebarOpen(true);
-    }
+    };
     const closeSidebar = () => {
         setSidebarOpen(false);
     }
     return (
         <div className="dash_container">
-            <Navbar sideBarOpen={sideBarOpen} openSiderbar={openSidebar} />
+            <Sidebar sidebarOpen={sidebarOpen} closeSidebar={closeSidebar} />
+            <Navbar sidebarOpen={sidebarOpen} openSiderbar={openSidebar} />
             <Main />
-            <Sidebar sidebarOpen={sideBarOpen} closeSidebar={closeSidebar} />
         </div>
     );
 };

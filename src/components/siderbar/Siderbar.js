@@ -1,76 +1,98 @@
 import './siderbar.css'
 import logo from '../../assets/logo.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArchive, faBriefcase, faBuilding, faCalendarCheck, faFile, faHandshake, faHome, faMoneyBill, faPowerOff, faQuestion, faSignOutAlt, faTimes, faUserSecret, faWrench } from '@fortawesome/free-solid-svg-icons'
+import { faArchive, faBars, faBriefcase, faBuilding, faCalendarCheck, faCut, faFile, faFileAlt, faHandshake, faHome, faMale, faMinusSquare, faMoneyBill, faMoneyBillWave, faPowerOff, faQuestion, faSignOutAlt, faTachometerAlt, faTasks, faTimes, faUserCircle, faUserSecret, faUtensils, faWrench } from '@fortawesome/free-solid-svg-icons'
+import { faCuttlefish } from '@fortawesome/free-brands-svg-icons'
 
 
-const Sidebar = ({sidebarOpen, closeSidebar}) => {
-    return(
-        <div className={sidebarOpen ? "sidebar_responsive" : ""} id="sidebar">
-           <div className="sidebar__title">
-               <div className="sidebar__img">
-                   <img src={logo} alt="logo" />
-                   <h1>SysEnergy</h1>
-               </div>
-               <i id="sidebarIcon" onClick={() => closeSidebar()}>
-                   <FontAwesomeIcon icon={faTimes} />
-               </i>
-           </div>
+const Sidebar = ({ sidebarOpen, closeSidebar }) => {
+    return (
+        <div className={sidebarOpen ? "sidebar-responsive" : ""} id="sidebar">
+            <div className="sidebar__title">
+                <div className="sidebar__img">
+                    <img src={logo} alt="logo" />
+                    <h1>SysEnergy</h1>
+                </div>
+                <i  onClick={() => closeSidebar()}
+                    id="sidebarIcon"
+                    aria-hidden="true">
+                        <FontAwesomeIcon icon={faTimes} />
+                </i>
+            </div>
             <div className="sidebar__menu">
                 <div className="sidebar__link active_menu_link">
-                    <i><FontAwesomeIcon icon={faHome} /></i>
-                    <a href="#">Dashboard</a>
+                    <i>
+                        <FontAwesomeIcon icon={faMinusSquare} />
+                    </i>
+                    <a href="#">Home</a>
                 </div>
-                <h2>MNG</h2>
+                <h2>ADMIN</h2>
                 <div className="sidebar__link">
-                    <i><FontAwesomeIcon icon={faUserSecret} /></i>
-                    <a href="#">Admin Management</a>
-                </div>
-                <div className="sidebar__link">
-                    <i><FontAwesomeIcon icon={faBuilding} /></i>
-                    <a href="#">Company Management</a>
-                </div>
-                <div className="sidebar__link">
-                    <i><FontAwesomeIcon icon={faWrench} /></i>
-                    <a href="#">Employee Management</a>
+                    <i>
+                        <FontAwesomeIcon icon={faTachometerAlt} />
+                    </i>
+                    <a href="#">Area Administrativa</a>
                 </div>
                 <div className="sidebar__link">
-                    <i><FontAwesomeIcon icon={faArchive} /></i>
-                    <a href="#">Warehouse</a>
+                    <i>
+                        <FontAwesomeIcon icon={faBuilding} />
+                    </i>
+                    <a href="#">Lojas</a>
                 </div>
                 <div className="sidebar__link">
-                    <i><FontAwesomeIcon icon={faHandshake} /></i>
-                    <a href="#">Contracts</a>
-                </div>
-                <h2>LEAVE</h2>
-                <div className="sidebar__link">
-                    <i><FontAwesomeIcon icon={faQuestion} /></i>
-                    <a href="#">Requests</a>
+                    <i>
+                        <FontAwesomeIcon icon={faArchive} />
+                    </i>
+                    <a href="#">Produtos</a>
                 </div>
                 <div className="sidebar__link">
-                    <i><FontAwesomeIcon icon={faSignOutAlt} /></i>
-                    <a href="#">Leave Policy</a>
+                    <i>
+                        <FontAwesomeIcon icon={faBars} />
+                    </i>
+                    <a href="#">Categorias</a>
                 </div>
                 <div className="sidebar__link">
-                    <i><FontAwesomeIcon icon={faCalendarCheck} /></i>
-                    <a href="#">Special Days</a>
+                    <i>
+                        <FontAwesomeIcon icon={faUtensils} />
+                    </i>
+                    <a href="#">Pedidos</a>
+                </div>
+                <h2>PESSOAS</h2>
+                <div className="sidebar__link">
+                    <i>
+                        <FontAwesomeIcon icon={faMale} />
+                    </i>
+                    <a href="#">Administradores</a>
                 </div>
                 <div className="sidebar__link">
-                    <i><FontAwesomeIcon icon={faFile} /></i>
-                    <a href="#">Apply for leave</a>
-                </div>
-                <h2>Payroll</h2>
-                <div className="sidebar__link">
-                    <i><FontAwesomeIcon icon={faMoneyBill} /></i>
-                    <a href="#">Payroll</a>
+                    <i>
+                        <FontAwesomeIcon icon={faUserCircle} />
+                    </i>
+                    <a href="#">Usuários</a>
                 </div>
                 <div className="sidebar__link">
-                    <i><FontAwesomeIcon icon={faBriefcase} /></i>
-                    <a href="#">Paygrade</a>
+                    <i>
+                        <FontAwesomeIcon icon={faMoneyBillWave} />
+                    </i>
+                    <a href="#">Pagamentos e custos</a>
                 </div>
                 <div className="sidebar__link">
-                    <i><FontAwesomeIcon icon={faPowerOff} /></i>
-                    <a href="#">Log out</a>
+                    <i>
+                        <FontAwesomeIcon icon={faTasks} />
+                    </i>
+                    <a href="#">A plataforma</a>
+                </div>
+                <div className="sidebar__link">
+                    <i>
+                        <FontAwesomeIcon icon={faFileAlt} />
+                    </i>
+                    <a href="#">Politica de privacidade</a>
+                </div>
+                <div className="sidebar__logout">
+                    <i>
+                        <FontAwesomeIcon icon={faPowerOff} />
+                    </i>
+                    <a href="#">Log out </a>
                 </div>
             </div>
         </div>

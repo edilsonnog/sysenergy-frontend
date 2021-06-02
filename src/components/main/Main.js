@@ -32,9 +32,7 @@ const Main = () => {
             </div>
           </div>
           <div className="card">
-            <i>
-              <FontAwesomeIcon icon={faCalendar} className="fa-2x text-red" />
-            </i>
+            <i><FontAwesomeIcon icon={faCalendar} className="fa-2x text-red" /></i>
             <div className="card_inner">
               <p className="text-primary-p">Times of Watching</p>
               <span className="font-bold text-title">2467</span>
@@ -44,7 +42,7 @@ const Main = () => {
             <i>
               <FontAwesomeIcon
                 icon={faVideoSlash}
-                className="fa-2x text-lightblue"
+                className="fa-2x text-yellow"
               />
             </i>
             <div className="card_inner">
@@ -56,7 +54,7 @@ const Main = () => {
             <i>
               <FontAwesomeIcon
                 icon={faThumbsUp}
-                className="fa-2x text-lightblue"
+                className="fa-2x text-green"
               />
             </i>
             <div className="card_inner">
