@@ -23,8 +23,8 @@ const Chart = () => {
                 <XAxis />
                 <YAxis />
                 <LineSeries data={data} color="red" />
-                <LineSeries data={data} color="purple" />
-                <LineSeries data={data} color="wellow" />
+                <LineSeries data={data} color="purlple" />
+                <LineSeries data={data} color="yellow" />
             </XYPlot>
         </div>
     )

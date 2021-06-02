@@ -3,8 +3,12 @@ import hello from "../../assets/hello.svg";
 import Chart from "../charts/Chart";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faArchive,
+  faBars,
   faCalendar,
+  faChartArea,
   faDollarSign,
+  faMoneyBillAlt,
   faThumbsUp,
   faUser,
   faVideoSlash,
@@ -27,39 +31,39 @@ const Main = () => {
               <FontAwesomeIcon icon={faUser} className="fa-2x text-lightblue" />
             </i>
             <div className="card_inner">
-              <p className="text-primary-p">Number of Subscribers</p>
+              <p className="text-primary-p">Número de Pedidos</p>
               <span className="font-bold text-title">578</span>
             </div>
           </div>
           <div className="card">
-            <i><FontAwesomeIcon icon={faCalendar} className="fa-2x text-red" /></i>
+            <i><FontAwesomeIcon icon={faMoneyBillAlt} className="fa-2x text-red" /></i>
             <div className="card_inner">
-              <p className="text-primary-p">Times of Watching</p>
-              <span className="font-bold text-title">2467</span>
+              <p className="text-primary-p">Pagamentos</p>
+              <span className="font-bold text-title">R$ 2.467</span>
             </div>
           </div>
           <div className="card">
             <i>
               <FontAwesomeIcon
-                icon={faVideoSlash}
+                icon={faArchive}
                 className="fa-2x text-yellow"
               />
             </i>
             <div className="card_inner">
-              <p className="text-primary-p">Number of Video</p>
-              <span className="font-bold text-title">340</span>
+              <p className="text-primary-p">Número de produtos</p>
+              <span className="font-bold text-title">670</span>
             </div>
           </div>
           <div className="card">
             <i>
               <FontAwesomeIcon
-                icon={faThumbsUp}
+                icon={faBars}
                 className="fa-2x text-green"
               />
             </i>
             <div className="card_inner">
-              <p className="text-primary-p">Number of Likes</p>
-              <span className="font-bold text-title">645</span>
+              <p className="text-primary-p">Categorias</p>
+              <span className="font-bold text-title">40</span>
             </div>
           </div>
         </div>
@@ -83,25 +87,25 @@ const Main = () => {
                 <p>Cupertino, California, USA</p>
               </div>
               <i>
-                <FontAwesomeIcon icon={faUser} />
+                <FontAwesomeIcon icon={faChartArea} />
               </i>
             </div>
             <div className="charts__right__cards">
               <div className="card1">
-                <h1>Income</h1>
-                <p>$75,300</p>
+                <h1>Lucro</h1>
+                <p>R$ 2.500,00</p>
               </div>
               <div className="card2">
-                <h1>Sales</h1>
-                <p>$124,200</p>
+                <h1>Pagamentos</h1>
+                <p>R$ 250,00</p>
               </div>
               <div className="card3">
-                <h1>Users</h1>
-                <p>3900</p>
+                <h1>Custo de hospedagem</h1>
+                <p>R$ 150,00</p>
               </div>
               <div className="card4">
-                <h1>Orders</h1>
-                <p>1881</p>
+                <h1>Banco de Dados</h1>
+                <p>R$ 180,00</p>
               </div>
             </div>
           </div>

@@ -189,5 +189,12 @@ main {
     .charts {
       grid-template-columns: 1fr;
       margin-top: 30px;
+      justify-content: center;
+    }
+
+    .charts__right__cards {
+      grid-template-columns: 1fr;
+      align-items: center;
+      margin-top: 30px;
     }
   }
