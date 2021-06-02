@@ -12,9 +12,7 @@ const Navbar = ({ sidebarOpen, openSiderbar }) => {
                 <i aria-hidden="true"><FontAwesomeIcon icon={faBars}  /></i>
             </div>
             <div className="navbar__left" >
-                <a href="#">Produtos</a>
-                <a href="#">Usuários</a>
-                <a href="#" className="active_link" >Admin</a>
+                <a >Sistema de Gerenciamento de Clientes e Pedidos</a>
             </div>
             <div className="navbar__right">
                 <a href="#">
