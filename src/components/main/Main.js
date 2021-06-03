@@ -5,14 +5,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArchive,
   faBars,
-  faCalendar,
   faChartArea,
   faDollarSign,
   faMoneyBillAlt,
-  faThumbsUp,
   faUser,
-  faVideoSlash,
-} from "@fortawesome/free-solid-svg-icons";
+  } from "@fortawesome/free-solid-svg-icons";
 
 const Main = () => {
   return (

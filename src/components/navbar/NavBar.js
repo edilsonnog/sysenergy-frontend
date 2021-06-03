@@ -12,16 +12,16 @@ const Navbar = ({ sidebarOpen, openSiderbar }) => {
                 <i aria-hidden="true"><FontAwesomeIcon icon={faBars}  /></i>
             </div>
             <div className="navbar__left" >
-                <a >Sistema de Gerenciamento de Clientes e Pedidos</a>
+                <a href="#!" >Sistema de Gerenciamento de Clientes e Pedidos</a>
             </div>
             <div className="navbar__right">
-                <a href="#">
+                <a href="#!">
                     <i><FontAwesomeIcon icon={faSearch} /></i>
                 </a>
-                <a href="#">
+                <a href="#!">
                     <i><FontAwesomeIcon icon={faClock} /></i>
                 </a>
-                <a href="#">
+                <a href="#!">
                     <img width="30" src={avatar} alt="avatar" />
                 </a>
             </div>
