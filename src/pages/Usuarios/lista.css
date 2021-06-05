@@ -93,6 +93,7 @@ main {
 .main__title {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .main__greeting > h1 {
@@ -116,4 +117,12 @@ main {
    /* box-shadow: 0 0 5px 5px rgb(0 0 0 / 10%);*/
     width: 95%;
     border-radius: 10px;
+}
+
+.inp {
+  width: 40%;
+}
+
+.btn_func {
+  padding: 0 10px;
 }
