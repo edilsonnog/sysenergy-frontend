@@ -1,90 +1,39 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { faEye, faUserEdit } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useCallback, useEffect, useState } from 'react'
 import { Button, Form, FormControl, InputGroup, Modal, OverlayTrigger, Table, Tooltip } from 'react-bootstrap';
 import Navbar from '../../components/navbar/NavBar';
 import Sidebar from '../../components/siderbar/Siderbar';
 import api from '../../services/api';
-import { Pagination, PaginationButton, PaginationItem } from './styles'
 import './lista.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faUserEdit } from '@fortawesome/free-solid-svg-icons';
+import { Pagination, PaginationButton, PaginationItem } from './styles';
 
-interface UsuariosData {
-    id: string;
-    name: string;
-    username: string;
-    password: string;
-    roles: string;
-    description: string;
-}
-interface RolesData {
+interface PermissoesData {
     id: string;
     name: string;
     description: string;
 }
-//interface NRolesData {
-//  id: string;
-//   name: string;
-//  description: string;
-//}
 
-const ListaUsuario: React.FC = () => {
-
+const ListaPermissoes: React.FC = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [usuarios, setUsuarios] = useState<UsuariosData[]>([] as UsuariosData[]);
-    const [vroles, setVRoles] = useState<RolesData[]>([] as RolesData[]);
-    // const [nrole, setNRole] = useState<NRolesData[]>([] as NRolesData[]);
+    const [busca, setBusca] = useState('');
+    const [permissoes, setPermissoes] = useState<PermissoesData[]>([] as PermissoesData[]);
     const [total, setTotal] = useState(0);
     const [limit, setLimit] = useState(5);
     const [pages, setPages] = useState<number[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [busca, setBusca] = useState('');
     const [status, setStatus] = useState(false);
-
-    //usuarios
+    const [show, setShow] = useState(false);
+    //permissions
     const [id, setId] = useState("");
     const [name, setName] = useState("");
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [roles, setRoles] = useState("");
-
-    useEffect(() => {
-        async function loadUsuarios() {
-            const qtde = await api.get(`/users?busca=${busca}`);
-            setTotal(qtde.data.length);
-            const response = await api.get(`/usuarios?busca=${busca}&page=${currentPage}&limit=${limit}`);
-            const totalPages = Math.ceil(total / limit);
-            const arrayPages = [];
-            for (let i = 1; i <= totalPages; i++) {
-                arrayPages.push(i);
-            }
-            setPages(arrayPages);
-            const nrole = await api.get("/roles");
-            setUsuarios(response.data);
-            setVRoles(nrole.data);
-        }
-        loadUsuarios();
-    }, [limit, total, currentPage, busca]);
-
-    const limits = useCallback((e) => {
-        setLimit(e.target.value);
-        setCurrentPage(1);
-    }, [])
-
-    const openSidebar = () => {
-        setSidebarOpen(true);
-    };
-    const closeSidebar = () => {
-        setSidebarOpen(false);
-    }
+    const [description, setDescription] = useState("");
 
     const limpaCampos = () => {
+        setId('');
         setName('');
-        setUsername('');
-        setPassword('');
-        setRoles('');
+        setDescription('');
     }
-
-    const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShowEnabled = () => {
@@ -93,25 +42,52 @@ const ListaUsuario: React.FC = () => {
         setShow(true);
     }
 
-    async function pegaUser(cod: any) {
+    const openSidebar = () => {
+        setSidebarOpen(true);
+    };
+    const closeSidebar = () => {
+        setSidebarOpen(false);
+    }
+
+    useEffect(() => {
+        async function loadPermissions() {
+            const qtde = await api.get(`/permission?busca=${busca}`);
+            setTotal(qtde.data.length);
+            const response = await api.get(`/permissions?busca=${busca}&page=${currentPage}&limit=${limit}`);
+            const totalPages = Math.ceil(total / limit);
+            const arrayPages = [];
+            for (let i = 1; i <= totalPages; i++) {
+                arrayPages.push(i);
+            }
+            setPages(arrayPages);
+            setPermissoes(response.data);
+        }
+        loadPermissions();
+    }, [limit, total, currentPage, busca]);
+
+    const limits = useCallback((e) => {
+        setLimit(e.target.value);
+        setCurrentPage(1);
+    }, [])
+
+    async function pegaPermission(cod: any) {
         setStatus(false)
-        await api.get(`/users/${cod}`)
+        await api.get(`/permissions/${cod}`)
             .then((response) => {
                 setId(response.data.id);
                 setName(response.data.name);
-                setUsername(response.data.username);
-                setRoles(response.data.roles[0].id);
+                setDescription(response.data.description);
                 setShow(true);
             });
     }
-    async function pegaUserView(cod: any) {
+
+    async function pegaPermissionView(cod: any) {
         setStatus(true)
-        await api.get(`/users/${cod}`)
+        await api.get(`/permissions/${cod}`)
             .then((response) => {
                 setId(response.data.id);
                 setName(response.data.name);
-                setUsername(response.data.username);
-                setRoles(response.data.roles[0].id);
+                setDescription(response.data.description);
                 setShow(true);
             });
     }
@@ -120,23 +96,19 @@ const ListaUsuario: React.FC = () => {
         async (e) => {
             e.preventDefault();
             if (id) {
-                await api.put(`/users/${id}`, {
+                await api.put(`/permissions/${id}`, {
                     name,
-                    username,
-                    password,
-                    roles,
+                    description,
                 })
             } else {
-                await api.post("/users", {
+                await api.post("/permissions", {
                     name,
-                    username,
-                    password,
-                    roles,
+                    description,
                 });
             }
 
             window.location.reload();
-        }, [name, username, password, roles, id]
+        }, [name, description, id]
     );
 
     return (
@@ -147,12 +119,11 @@ const ListaUsuario: React.FC = () => {
                 <div className="main__container">
                     <div className="main__title">
                         <div className="main__greeting">
-                            <h1>Usuários</h1>
-                            <p>Relação de usuários para acesso ao sistema</p>
+                            <h1>Permissões</h1>
+                            <p>Relação de permissões para acesso ao sistema</p>
                         </div>
-                        <Button variant="primary" onClick={handleShowEnabled}>Novo Usuário</Button>
+                        <Button variant="primary" onClick={handleShowEnabled}>Nova Permissão</Button>
                     </div>
-
                     <div className="main__tab">
                         <>
                             <InputGroup className="col-md-3 mb-3 inp">
@@ -167,18 +138,16 @@ const ListaUsuario: React.FC = () => {
                         <Table className="table table-striped" size="sm">
                             <thead>
                                 <tr>
-                                    <th scope="col" className="col-3">Nome do usuário</th>
-                                    <th scope="col" className="col-3">Username</th>
-                                    <th scope="col" className="col-3">Perfil</th>
+                                    <th scope="col" className="col-3">Nome</th>
+                                    <th scope="col" className="col-3">Descrição</th>
                                     <th scope="col" className="col-3">Opções</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {usuarios.map((user) => (
-                                    <tr key={user.id}>
-                                        <td>{user.name}</td>
-                                        <td>{user.username}</td>
-                                        <td>{user.description}</td>
+                                {permissoes.map((permission) => (
+                                    <tr key={permission.id}>
+                                        <td>{permission.name}</td>
+                                        <td>{permission.description}</td>
                                         <td>
                                             <div>
                                                 <OverlayTrigger overlay={<Tooltip id="tooltip-disabled">Visualizar</Tooltip>}>
@@ -186,7 +155,7 @@ const ListaUsuario: React.FC = () => {
                                                         <Button
                                                             className="topBt"
                                                             variant="outline-info"
-                                                            onClick={() => pegaUserView(user.id)}
+                                                            onClick={() => pegaPermissionView(permission.id)}
                                                         >
                                                             <FontAwesomeIcon icon={faEye} />
                                                         </Button>{" "}
@@ -197,7 +166,7 @@ const ListaUsuario: React.FC = () => {
                                                         <Button
                                                             className="topBt"
                                                             variant="outline-warning"
-                                                            onClick={() => pegaUser(user.id)}
+                                                            onClick={() => pegaPermission(permission.id)}
                                                         >
                                                             <FontAwesomeIcon icon={faUserEdit} />
                                                         </Button>{" "}
@@ -237,7 +206,6 @@ const ListaUsuario: React.FC = () => {
                     </div>
                 </div>
             </main>
-
             <Modal
                 show={show}
                 onHide={handleClose}
@@ -254,7 +222,7 @@ const ListaUsuario: React.FC = () => {
                             <Form.Control
                                 disabled={status}
                                 type="name"
-                                placeholder="Enter Nome"
+                                placeholder="Enter nome da Permissão"
                                 name="name"
                                 onChange={(e) => setName(e.target.value)}
                                 value={name}
@@ -265,38 +233,11 @@ const ListaUsuario: React.FC = () => {
                             <Form.Control
                                 disabled={status}
                                 type="username"
-                                placeholder="Enter Username"
+                                placeholder="Enter Descrição"
                                 name="username"
-                                onChange={(e) => setUsername(e.target.value)}
-                                value={username}
+                                onChange={(e) => setDescription(e.target.value)}
+                                value={description}
                             />
-                        </Form.Group>
-                        <Form.Group controlId="formBasicPassword">
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control
-                                disabled={status}
-                                type="password"
-                                placeholder="Password"
-                                name="password"
-                                onChange={(e) => setPassword(e.target.value)}
-                                value={password}
-                            />
-                        </Form.Group>
-                        <Form.Group controlId="exampleForm.ControlSelect1">
-                            <Form.Label>Selecione o Perfil</Form.Label>
-                            <Form.Control
-                                disabled={status}
-                                as="select"
-                                type="roles"
-                                name="roles"
-                                onChange={(e) => setRoles(e.target.value)}
-                                value={roles}
-                            >
-                                <option value="">Selecione um Perfil</option>
-                                {vroles.map((nroles) => (
-                                    <option key={nroles.id} value={nroles.id}>{nroles.description}</option>
-                                ))}
-                            </Form.Control>
                         </Form.Group>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={handleClose}>Cancela</Button>
@@ -306,7 +247,7 @@ const ListaUsuario: React.FC = () => {
                 </Modal.Body>
             </Modal>
         </div>
-    );
+    )
 }
 
-export default ListaUsuario;
+export default ListaPermissoes;

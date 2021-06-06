@@ -61,7 +61,7 @@ const Sidebar = ({ sidebarOpen, closeSidebar }) => {
                     <i>
                         <FontAwesomeIcon icon={faUserCircle} />
                     </i>
-                    <a href="/listaUser">Usuários</a>
+                    <a href="/usuarios">Usuários</a>
                 </div>
                 <div className="sidebar__link" >
                     <i>
@@ -74,7 +74,7 @@ const Sidebar = ({ sidebarOpen, closeSidebar }) => {
                     <i>
                         <FontAwesomeIcon icon={faUserCog} />
                     </i>
-                    <a href="#!">Permissões</a>
+                    <a href="/permissoes">Permissões</a>
                 </div>
                 <div className="sidebar__link" style={{display:"none"}}>
                     <i>
