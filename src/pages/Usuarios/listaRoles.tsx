@@ -3,31 +3,76 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useCallback, useEffect, useState } from 'react'
 import { Button, Form, FormControl, InputGroup, Modal, OverlayTrigger, Table, Tooltip } from 'react-bootstrap';
 import Navbar from '../../components/navbar/NavBar';
-import Sidebar from '../../components/siderbar/Siderbar';
+import Sidebar from '../../components/siderbar/Siderbar'
 import api from '../../services/api';
 import './lista.css'
 import { Pagination, PaginationButton, PaginationItem } from './styles';
 
-interface PermissoesData {
+interface RolesData {
     id: string;
     name: string;
     description: string;
 }
 
-const ListaPermissoes: React.FC = () => {
-    const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [busca, setBusca] = useState('');
-    const [permissoes, setPermissoes] = useState<PermissoesData[]>([] as PermissoesData[]);
-    const [total, setTotal] = useState(0);
+const ListaRoles: React.FC = () => {
+
+    const [roles, setRoles] = useState<RolesData[]>([] as RolesData[]);
+     const [total, setTotal] = useState(0);
     const [limit, setLimit] = useState(5);
     const [pages, setPages] = useState<number[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [busca, setBusca] = useState('');
     const [status, setStatus] = useState(false);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
     const [show, setShow] = useState(false);
+
     //permissions
     const [id, setId] = useState("");
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
+
+    useEffect(() => {
+        async function loadUsuarios() {
+            const qtde = await api.get(`/roless?busca=${busca}`);
+            setTotal(qtde.data.length);
+            const response = await api.get(`/role?busca=${busca}&page=${currentPage}&limit=${limit}`);
+            const totalPages = Math.ceil(total / limit);
+            const arrayPages = [];
+            for (let i = 1; i <= totalPages; i++) {
+                arrayPages.push(i);
+            }
+            setPages(arrayPages);
+            setRoles(response.data);
+        }
+        loadUsuarios();
+    }, [limit, total, currentPage, busca]);
+
+    async function pegaRoleView(cod: any) {
+        setStatus(true)
+        await api.get(`/role/${cod}`)
+            .then((response) => {
+                setId(response.data.id);
+                setName(response.data.name);
+                setDescription(response.data.description);
+                setShow(true);
+            });
+    }
+
+    async function pegaRole(cod: any) {
+        setStatus(false)
+        await api.get(`/role/${cod}`)
+            .then((response) => {
+                setId(response.data.id);
+                setName(response.data.name);
+                setDescription(response.data.description);
+                setShow(true);
+            });
+    }
+
+    const limits = useCallback((e) => {
+        setLimit(e.target.value);
+        setCurrentPage(1);
+    }, [])
 
     const limpaCampos = () => {
         setId('');
@@ -49,59 +94,16 @@ const ListaPermissoes: React.FC = () => {
         setSidebarOpen(false);
     }
 
-    useEffect(() => {
-        async function loadPermissions() {
-            const qtde = await api.get(`/permission?busca=${busca}`);
-            setTotal(qtde.data.length);
-            const response = await api.get(`/permissions?busca=${busca}&page=${currentPage}&limit=${limit}`);
-            const totalPages = Math.ceil(total / limit);
-            const arrayPages = [];
-            for (let i = 1; i <= totalPages; i++) {
-                arrayPages.push(i);
-            }
-            setPages(arrayPages);
-            setPermissoes(response.data);
-        }
-        loadPermissions();
-    }, [limit, total, currentPage, busca]);
-
-    const limits = useCallback((e) => {
-        setLimit(e.target.value);
-        setCurrentPage(1);
-    }, [])
-
-    async function pegaPermission(cod: any) {
-        setStatus(false)
-        await api.get(`/permissions/${cod}`)
-            .then((response) => {
-                setId(response.data.id);
-                setName(response.data.name);
-                setDescription(response.data.description);
-                setShow(true);
-            });
-    }
-
-    async function pegaPermissionView(cod: any) {
-        setStatus(true)
-        await api.get(`/permissions/${cod}`)
-            .then((response) => {
-                setId(response.data.id);
-                setName(response.data.name);
-                setDescription(response.data.description);
-                setShow(true);
-            });
-    }
-
     const handleSubmit = useCallback(
         async (e) => {
             e.preventDefault();
             if (id) {
-                await api.put(`/permissions/${id}`, {
+                await api.put(`/roles/${id}`, {
                     name,
                     description,
                 })
             } else {
-                await api.post("/permissions", {
+                await api.post("/roles", {
                     name,
                     description,
                 });
@@ -111,6 +113,7 @@ const ListaPermissoes: React.FC = () => {
         }, [name, description, id]
     );
 
+    //
     return (
         <div className="user_container">
             <Sidebar sidebarOpen={sidebarOpen} closeSidebar={closeSidebar} />
@@ -119,10 +122,10 @@ const ListaPermissoes: React.FC = () => {
                 <div className="main__container">
                     <div className="main__title">
                         <div className="main__greeting">
-                            <h1>Permissões</h1>
-                            <p>Relação de permissões para acesso ao sistema</p>
+                            <h1>Perfis</h1>
+                            <p>Relação de perfis para acesso ao sistema</p>
                         </div>
-                        <Button variant="primary" onClick={handleShowEnabled}>Nova Permissão</Button>
+                        <Button variant="primary" onClick={handleShowEnabled} >Novo Perfil</Button>
                     </div>
                     <div className="main__tab">
                         <>
@@ -138,16 +141,16 @@ const ListaPermissoes: React.FC = () => {
                         <Table className="table table-striped" size="sm">
                             <thead>
                                 <tr>
-                                    <th scope="col" className="col-3">Nome</th>
+                                    <th scope="col" className="col-3">Nome do Perfil</th>
                                     <th scope="col" className="col-3">Descrição</th>
                                     <th scope="col" className="col-3">Opções</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {permissoes.map((permission) => (
-                                    <tr key={permission.id}>
-                                        <td>{permission.name}</td>
-                                        <td>{permission.description}</td>
+                                {roles.map((role) => (
+                                    <tr key={role.id}>
+                                        <td>{role.name}</td>
+                                        <td>{role.description}</td>
                                         <td>
                                             <div>
                                                 <OverlayTrigger overlay={<Tooltip id="tooltip-disabled">Visualizar</Tooltip>}>
@@ -155,7 +158,7 @@ const ListaPermissoes: React.FC = () => {
                                                         <Button
                                                             className="topBt"
                                                             variant="outline-info"
-                                                            onClick={() => pegaPermissionView(permission.id)}
+                                                            onClick={() => pegaRoleView(role.id)}
                                                         >
                                                             <FontAwesomeIcon icon={faEye} />
                                                         </Button>{" "}
@@ -166,7 +169,7 @@ const ListaPermissoes: React.FC = () => {
                                                         <Button
                                                             className="topBt"
                                                             variant="outline-warning"
-                                                            onClick={() => pegaPermission(permission.id)}
+                                                            onClick={() => pegaRole(role.id)}
                                                         >
                                                             <FontAwesomeIcon icon={faUserEdit} />
                                                         </Button>{" "}
@@ -248,6 +251,7 @@ const ListaPermissoes: React.FC = () => {
             </Modal>
         </div>
     )
+
 }
 
-export default ListaPermissoes;
+export default ListaRoles;

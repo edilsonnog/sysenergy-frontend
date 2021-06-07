@@ -12,7 +12,8 @@ const PrivateRoutes: React.FC<RoutesPropsData> = ({ role, ...rest }) => {
     useEffect(() => {
         async function loadRoles() {
             const response = api.get('/users/roles');
-            const findRole = (await response).data.find((r: string) => r === role);
+            const findRole = (await response).data.some((r: string) => 
+                role?.split(",").includes(r));
             setPermissions(findRole);
         }
         loadRoles();

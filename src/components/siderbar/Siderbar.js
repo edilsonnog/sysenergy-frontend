@@ -2,9 +2,15 @@ import './siderbar.css'
 import logo from '../../assets/logo.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArchive, faBars,  faBuilding,  faFileAlt,  faMinusSquare, faPowerOff,  faTachometerAlt, faTasks, faTimes, faUserCircle, faUserCog, faUsersCog, faUtensils } from '@fortawesome/free-solid-svg-icons'
+import PermissionComponent from '../PermissionComponent'
 
 
 const Sidebar = ({ sidebarOpen, closeSidebar }) => {
+
+    function logOut() {
+        localStorage.clear();
+    }
+
     return (
         <div className={sidebarOpen ? "sidebar-responsive" : ""} id="sidebar">
             <div className="sidebar__title">
@@ -57,25 +63,30 @@ const Sidebar = ({ sidebarOpen, closeSidebar }) => {
                     <a href="#!">Pedidos</a>
                 </div>
                 <h2>PESSOAS</h2>
+                <PermissionComponent role="ROLE_ADMIN">
                 <div className="sidebar__link">
                     <i>
                         <FontAwesomeIcon icon={faUserCircle} />
                     </i>
                     <a href="/usuarios">Usuários</a>
                 </div>
+                </PermissionComponent>
+                <PermissionComponent role="ROLE_ADMIN">
                 <div className="sidebar__link" >
                     <i>
                         <FontAwesomeIcon icon={faUsersCog} />
                     </i>
-                    <a href="#!">Perfis</a>
+                    <a href="/roles">Perfis</a>
                 </div>
-                
+                </PermissionComponent>
+                <PermissionComponent role="ROLE_ADMIN">
                 <div className="sidebar__link">
                     <i>
                         <FontAwesomeIcon icon={faUserCog} />
                     </i>
                     <a href="/permissoes">Permissões</a>
                 </div>
+                </PermissionComponent>
                 <div className="sidebar__link" style={{display:"none"}}>
                     <i>
                         <FontAwesomeIcon icon={faTasks} />
@@ -92,7 +103,7 @@ const Sidebar = ({ sidebarOpen, closeSidebar }) => {
                     <i>
                         <FontAwesomeIcon icon={faPowerOff} />
                     </i>
-                    <a href="#!">Log out </a>
+                    <a href="/" onClick={logOut}>Log out </a>
                 </div>
             </div>
         </div>

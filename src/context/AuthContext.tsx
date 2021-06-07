@@ -32,6 +32,7 @@ const AuthProvider: React.FC = ({ children }) => {
         const { token } = response.data;
         setToken(token);
         localStorage.setItem("@SysEnergy:token", token);
+        api.defaults.headers.authorization = `Bearer ${token}`;
     }, []);
 
     const userLogged = useCallback(() => {
