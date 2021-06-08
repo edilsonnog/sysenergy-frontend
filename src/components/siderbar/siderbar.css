@@ -7,6 +7,24 @@
     transition: all 0.5s;
   }
 
+.side__title {
+  display: flex;
+  align-items: center;
+}
+
+.side__title > h3 {
+  font-size: 18px;
+  color: #0877e6;
+  margin-bottom: 5px;
+}
+
+.side__user > p {
+  font-size: 16px;
+  font-weight: 700;
+  color: #696e71;
+}
+
+
 .sidebar__title {
     display: flex;
     justify-content: space-between;

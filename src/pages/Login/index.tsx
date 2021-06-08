@@ -1,7 +1,5 @@
 import React, { useCallback, useState } from 'react'
 import { Button, Col, Container, Form, Row } from 'react-bootstrap'
-/*import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserCircle as farFaUserCircle } from '@fortawesome/free-regular-svg-icons'*/
 import loginIcon from '../../images/user.svg'
 import uiImg from '../../images/login.svg';
 import './login.css'

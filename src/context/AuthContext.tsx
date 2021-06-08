@@ -5,6 +5,7 @@ interface AuthContextState {
     token: TokenState;
     signIn({ username, password }: UserData): Promise<void>;
     userLogged(): boolean;
+    user: string;
 }
 
 interface UserData {
@@ -19,6 +20,7 @@ interface TokenState {
 const AuthContext = createContext<AuthContextState>({} as AuthContextState);
 
 const AuthProvider: React.FC = ({ children }) => {
+    const [ user, setUser ] = useState('')
     const [token, setToken] = useState<TokenState>(() => {
         const token = localStorage.getItem('@SysEnergy:token');
         if (token) {
@@ -30,6 +32,9 @@ const AuthProvider: React.FC = ({ children }) => {
     const signIn = useCallback(async ({ username, password }: UserData) => {
         const response = await api.post("/sessions", { username, password });
         const { token } = response.data;
+        const { user } = response.data;
+        const { name } = user;
+        setUser(name)
         setToken(token);
         localStorage.setItem("@SysEnergy:token", token);
         api.defaults.headers.authorization = `Bearer ${token}`;
@@ -44,7 +49,7 @@ const AuthProvider: React.FC = ({ children }) => {
     }, [])
 
     return (
-        <AuthContext.Provider value={{ token, signIn, userLogged }}>
+        <AuthContext.Provider value={{ token, signIn, userLogged, user }}>
             {children}
         </AuthContext.Provider>
     )
