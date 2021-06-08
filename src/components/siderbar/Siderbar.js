@@ -17,14 +17,13 @@ import {
   faUtensils,
 } from "@fortawesome/free-solid-svg-icons";
 import PermissionComponent from "../PermissionComponent";
-import { useAuth } from "../../context/AuthContext";
 
 const Sidebar = ({ sidebarOpen, closeSidebar }) => {
   function logOut() {
     localStorage.clear();
   }
 
-  const { user } = useAuth();
+  const userLogado = localStorage.getItem("UserLogado")
 
   return (
     <div className={sidebarOpen ? "sidebar-responsive" : ""} id="sidebar">
@@ -40,7 +39,7 @@ const Sidebar = ({ sidebarOpen, closeSidebar }) => {
       <div className="side__title" >
         <h3>Seja Bem Vindo:  </h3> 
       </div>
-      <div className="side__user"><p>{user}</p></div>
+      <div className="side__user"><p>{userLogado}</p></div>
       <div className="sidebar__menu">
         <div className="sidebar__link active_menu_link">
           <i>
@@ -52,11 +51,11 @@ const Sidebar = ({ sidebarOpen, closeSidebar }) => {
           <h2>ADMIN</h2>
         </PermissionComponent>
         <PermissionComponent role="ROLE_ADMIN,ROLE_USER">
-          <div className="sidebar__link" style={{ display: "none" }}>
+          <div className="sidebar__link" >
             <i>
               <FontAwesomeIcon icon={faTachometerAlt} />
             </i>
-            <a href="#!">Clientes</a>
+            <a href="">Clientes</a>
           </div>
         </PermissionComponent>
         <div className="sidebar__link" style={{ display: "none" }}>

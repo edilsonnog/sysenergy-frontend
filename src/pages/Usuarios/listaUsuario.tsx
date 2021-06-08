@@ -15,6 +15,7 @@ interface UsuariosData {
     password: string;
     roles: string;
     description: string;
+    state: string;
 }
 interface RolesData {
     id: string;
@@ -39,12 +40,14 @@ const ListaUsuario: React.FC = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [busca, setBusca] = useState('');
     const [status, setStatus] = useState(false);
+    const [checkeds, setcheckeds] = useState(Boolean);
 
     //usuarios
     const [id, setId] = useState("");
     const [name, setName] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [state, setState] = useState('');
     const [roles, setRoles] = useState("");
 
     useEffect(() => {
@@ -88,6 +91,8 @@ const ListaUsuario: React.FC = () => {
 
     const handleClose = () => setShow(false);
     const handleShowEnabled = () => {
+        setcheckeds(true)
+    console.log(checkeds)
         limpaCampos();
         setStatus(false)
         setShow(true);
@@ -101,6 +106,12 @@ const ListaUsuario: React.FC = () => {
                 setName(response.data.name);
                 setUsername(response.data.username);
                 setRoles(response.data.roles[0].id);
+                setState(response.data.state)
+                if(state === "Ativo"){
+                    setcheckeds(true)
+                }else{
+                    setcheckeds(false)
+                }
                 setShow(true);
             });
     }
@@ -115,6 +126,21 @@ const ListaUsuario: React.FC = () => {
                 setShow(true);
             });
     }
+
+    const handleCheckbox = useCallback((e) => {
+     //   console.log(event.target.value)
+        if(e.target.checked){
+            setcheckeds(e.target.checked)
+            console.log(checkeds)
+            setState('Inativo')
+        }else{
+            setcheckeds(e.target.checked)
+            console.log(checkeds)
+            setState('Ativo')
+        }
+      //  setcheckeds(e.target.checked)
+        console.log(state);
+    },[state, checkeds])  
 
     const handleSubmit = useCallback(
         async (e) => {
@@ -168,8 +194,9 @@ const ListaUsuario: React.FC = () => {
                             <thead>
                                 <tr>
                                     <th scope="col" className="col-3">Nome do usuário</th>
-                                    <th scope="col" className="col-3">Username</th>
-                                    <th scope="col" className="col-3">Perfil</th>
+                                    <th scope="col" className="col-2">Username</th>
+                                    <th scope="col" className="col-2">Perfil</th>
+                                    <th scope="col" className="col-2">Status</th>
                                     <th scope="col" className="col-3">Opções</th>
                                 </tr>
                             </thead>
@@ -179,6 +206,7 @@ const ListaUsuario: React.FC = () => {
                                         <td>{user.name}</td>
                                         <td>{user.username}</td>
                                         <td>{user.description}</td>
+                                        <td>{user.state}</td>
                                         <td>
                                             <div>
                                                 <OverlayTrigger overlay={<Tooltip id="tooltip-disabled">Visualizar</Tooltip>}>
@@ -298,6 +326,15 @@ const ListaUsuario: React.FC = () => {
                                 ))}
                             </Form.Control>
                         </Form.Group>
+                        <br />
+                        <Form.Check
+                            name="state"
+                         //   value="Ativo"
+                            label="Ativo"
+                            onChange={handleCheckbox}
+                            checked={checkeds}
+                         //   onClick={}
+                        />
                         <Modal.Footer>
                             <Button variant="secondary" onClick={handleClose}>Cancela</Button>
                             <Button variant="primary" type="submit" disabled={status} onClick={handleClose}>Salvar</Button>
