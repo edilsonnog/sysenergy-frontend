@@ -55,7 +55,7 @@ const Sidebar = ({ sidebarOpen, closeSidebar }) => {
             <i>
               <FontAwesomeIcon icon={faTachometerAlt} />
             </i>
-            <a href="">Clientes</a>
+            <a href="#!">Clientes</a>
           </div>
         </PermissionComponent>
         <div className="sidebar__link" style={{ display: "none" }}>

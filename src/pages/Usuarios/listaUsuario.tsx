@@ -40,14 +40,14 @@ const ListaUsuario: React.FC = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [busca, setBusca] = useState('');
     const [status, setStatus] = useState(false);
-    const [checkeds, setcheckeds] = useState(Boolean);
+    const [checkeds, setcheckeds] = useState(false);
 
     //usuarios
     const [id, setId] = useState("");
     const [name, setName] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [state, setState] = useState('');
+    const [state, setState] = useState("");
     const [roles, setRoles] = useState("");
 
     useEffect(() => {
@@ -85,15 +85,34 @@ const ListaUsuario: React.FC = () => {
         setUsername('');
         setPassword('');
         setRoles('');
+        setState('');
+        setcheckeds(false)
     }
+
+    const handelChecked = useCallback((e) => {
+        setState('')
+        console.log(e.target.checked)
+        if(e.target.checked){
+            setState('Ativo')
+            setcheckeds(true)
+            console.log(state)
+        }else {
+            setState('Inativo')
+            setcheckeds(false)
+            console.log(state)
+        }
+        
+    }, [state])
 
     const [show, setShow] = useState(false);
 
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setShow(false);
+     //   limpaCampos();
+    //    window.location.reload();
+    }
     const handleShowEnabled = () => {
-        setcheckeds(true)
-    console.log(checkeds)
-        limpaCampos();
+     //   limpaCampos();
         setStatus(false)
         setShow(true);
     }
@@ -107,11 +126,6 @@ const ListaUsuario: React.FC = () => {
                 setUsername(response.data.username);
                 setRoles(response.data.roles[0].id);
                 setState(response.data.state)
-                if(state === "Ativo"){
-                    setcheckeds(true)
-                }else{
-                    setcheckeds(false)
-                }
                 setShow(true);
             });
     }
@@ -123,24 +137,17 @@ const ListaUsuario: React.FC = () => {
                 setName(response.data.name);
                 setUsername(response.data.username);
                 setRoles(response.data.roles[0].id);
+                setState(response.data.state)
+                if(state === 'Ativo'){
+                    setcheckeds(true)
+                }else if(state === 'Inativo'){
+                    setcheckeds(false)
+                }
+                console.log(response.data.state)
+                console.log(checkeds)
                 setShow(true);
             });
     }
-
-    const handleCheckbox = useCallback((e) => {
-     //   console.log(event.target.value)
-        if(e.target.checked){
-            setcheckeds(e.target.checked)
-            console.log(checkeds)
-            setState('Inativo')
-        }else{
-            setcheckeds(e.target.checked)
-            console.log(checkeds)
-            setState('Ativo')
-        }
-      //  setcheckeds(e.target.checked)
-        console.log(state);
-    },[state, checkeds])  
 
     const handleSubmit = useCallback(
         async (e) => {
@@ -151,18 +158,26 @@ const ListaUsuario: React.FC = () => {
                     username,
                     password,
                     roles,
+                    state,
                 })
             } else {
-                await api.post("/users", {
+                console.log(
                     name,
                     username,
                     password,
                     roles,
-                });
+                    state)
+               /* await api.post("/users", {
+                    name,
+                    username,
+                    password,
+                    roles,
+                    state,
+                });*/
             }
 
-            window.location.reload();
-        }, [name, username, password, roles, id]
+           // window.location.reload();
+        }, [name, username, password, roles, id, state]
     );
 
     return (
@@ -327,14 +342,15 @@ const ListaUsuario: React.FC = () => {
                             </Form.Control>
                         </Form.Group>
                         <br />
-                        <Form.Check
-                            name="state"
-                         //   value="Ativo"
-                            label="Ativo"
-                            onChange={handleCheckbox}
-                            checked={checkeds}
-                         //   onClick={}
-                        />
+                        <div>
+                            <Form.Check
+                                label={state === "" ? "Status: Ativo ou Inativo" : state}
+                                type="checkbox"
+                                onChange={handelChecked}
+                                checked={checkeds}
+                                disabled={status}
+                            /> 
+                        </div>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={handleClose}>Cancela</Button>
                             <Button variant="primary" type="submit" disabled={status} onClick={handleClose}>Salvar</Button>
