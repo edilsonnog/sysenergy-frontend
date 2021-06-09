@@ -8,6 +8,7 @@ import './lista.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faUserEdit } from '@fortawesome/free-solid-svg-icons';
 
+
 interface UsuariosData {
     id: string;
     name: string;
@@ -80,39 +81,38 @@ const ListaUsuario: React.FC = () => {
         setSidebarOpen(false);
     }
 
-    const limpaCampos = () => {
-        setName('');
-        setUsername('');
-        setPassword('');
-        setRoles('');
-        setState('');
-        setcheckeds(false)
-    }
+    /* const limpaCampos = () => {
+         setName('');
+         setUsername('');
+         setPassword('');
+         setRoles('');
+         setState('');
+         setcheckeds(false)
+     }*/
 
     const handelChecked = useCallback((e) => {
         setState('')
         console.log(e.target.checked)
-        if(e.target.checked){
+        if (e.target.checked) {
             setState('Ativo')
             setcheckeds(true)
             console.log(state)
-        }else {
+        } else {
             setState('Inativo')
             setcheckeds(false)
             console.log(state)
         }
-        
+
     }, [state])
 
     const [show, setShow] = useState(false);
 
     const handleClose = () => {
+        //     window.location.reload();
         setShow(false);
-     //   limpaCampos();
-    //    window.location.reload();
     }
+
     const handleShowEnabled = () => {
-     //   limpaCampos();
         setStatus(false)
         setShow(true);
     }
@@ -138,9 +138,9 @@ const ListaUsuario: React.FC = () => {
                 setUsername(response.data.username);
                 setRoles(response.data.roles[0].id);
                 setState(response.data.state)
-                if(state === 'Ativo'){
+                if (state === 'Ativo') {
                     setcheckeds(true)
-                }else if(state === 'Inativo'){
+                } else if (state === 'Inativo') {
                     setcheckeds(false)
                 }
                 console.log(response.data.state)
@@ -167,16 +167,16 @@ const ListaUsuario: React.FC = () => {
                     password,
                     roles,
                     state)
-               /* await api.post("/users", {
-                    name,
-                    username,
-                    password,
-                    roles,
-                    state,
-                });*/
+                /* await api.post("/users", {
+                     name,
+                     username,
+                     password,
+                     roles,
+                     state,
+                 });*/
             }
 
-           // window.location.reload();
+            // window.location.reload();
         }, [name, username, password, roles, id, state]
     );
 
@@ -292,7 +292,7 @@ const ListaUsuario: React.FC = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
-                        <Form.Group controlId="formBasicEmail">
+                        <Form.Group >
                             <Form.Label>Nome</Form.Label>
                             <Form.Control
                                 disabled={status}
@@ -303,7 +303,7 @@ const ListaUsuario: React.FC = () => {
                                 value={name}
                             />
                         </Form.Group>
-                        <Form.Group controlId="formBasicEmail">
+                        <Form.Group >
                             <Form.Label>Username</Form.Label>
                             <Form.Control
                                 disabled={status}
@@ -349,7 +349,7 @@ const ListaUsuario: React.FC = () => {
                                 onChange={handelChecked}
                                 checked={checkeds}
                                 disabled={status}
-                            /> 
+                            />
                         </div>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={handleClose}>Cancela</Button>
