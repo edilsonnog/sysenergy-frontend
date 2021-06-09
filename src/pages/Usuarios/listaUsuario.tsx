@@ -352,7 +352,7 @@ const ListaUsuario: React.FC = () => {
                             />
                         </div>
                         <Modal.Footer>
-                            <Button variant="secondary" onClick={handleClose}>Cancela</Button>
+                            <Button variant="secondary" onClick={handleClose} >Cancela</Button>
                             <Button variant="primary" type="submit" disabled={status} onClick={handleClose}>Salvar</Button>
                         </Modal.Footer>
                     </Form>
