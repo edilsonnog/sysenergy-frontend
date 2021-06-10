@@ -7,6 +7,7 @@ import { Pagination, PaginationButton, PaginationItem } from './styles'
 import './lista.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faUserEdit } from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
 
 
 interface UsuariosData {
@@ -23,25 +24,21 @@ interface RolesData {
     name: string;
     description: string;
 }
-//interface NRolesData {
-//  id: string;
-//   name: string;
-//  description: string;
-//}
 
 const ListaUsuario: React.FC = () => {
 
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [usuarios, setUsuarios] = useState<UsuariosData[]>([] as UsuariosData[]);
     const [vroles, setVRoles] = useState<RolesData[]>([] as RolesData[]);
-    // const [nrole, setNRole] = useState<NRolesData[]>([] as NRolesData[]);
     const [total, setTotal] = useState(0);
     const [limit, setLimit] = useState(5);
     const [pages, setPages] = useState<number[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [busca, setBusca] = useState('');
     const [status, setStatus] = useState(false);
-    const [checkeds, setcheckeds] = useState(false);
+    const [limpa, setLimpa] = useState(false)
+    const [erro, setErro] = useState("");
+    const [mostrarError, setMostrarError] = useState("invisible");
 
     //usuarios
     const [id, setId] = useState("");
@@ -74,6 +71,38 @@ const ListaUsuario: React.FC = () => {
         setCurrentPage(1);
     }, [])
 
+
+    const validaFormulario = (e: any) => {
+        e.preventDefault();
+
+        if (name === null || name.length <= 8 || name.trim() === "") {
+            setErro("* O nome não pode ficar vazio ou ter menos de 8 Caracteres");
+            setMostrarError("visible");
+            setShow(true);
+            return;
+        }
+
+        if (username === null || username.length <= 0 || username.trim() === "") {
+            setErro("* O Username não pode ficar vazio");
+            setMostrarError("visible");
+            setShow(true);
+            return;
+        }
+
+        if (id) {
+            alteraUsuario(id)
+        } else {
+            if (password === null || password.length <= 4 || password.trim() === "") {
+                setErro("* O Password não pode ficar vazio ou ter menos 4 Caracteres");
+                setMostrarError("visible");
+                setShow(true);
+                return;
+            }
+            adicionaUsuario();
+        }
+        handleClose()
+    }
+
     const openSidebar = () => {
         setSidebarOpen(true);
     };
@@ -81,44 +110,34 @@ const ListaUsuario: React.FC = () => {
         setSidebarOpen(false);
     }
 
-    /* const limpaCampos = () => {
-         setName('');
-         setUsername('');
-         setPassword('');
-         setRoles('');
-         setState('');
-         setcheckeds(false)
-     }*/
-
     const handelChecked = useCallback((e) => {
         setState('')
-        console.log(e.target.checked)
         if (e.target.checked) {
             setState('Ativo')
-            setcheckeds(true)
-            console.log(state)
         } else {
             setState('Inativo')
-            setcheckeds(false)
-            console.log(state)
         }
 
-    }, [state])
+    }, [])
 
     const [show, setShow] = useState(false);
 
     const handleClose = () => {
-        //     window.location.reload();
+        if (limpa) {
+            setTimeout(() => { window.location.reload(); }, 3500);
+        }
         setShow(false);
     }
 
     const handleShowEnabled = () => {
         setStatus(false)
         setShow(true);
+        setLimpa(false)
     }
 
     async function pegaUser(cod: any) {
         setStatus(false)
+        setLimpa(true)
         await api.get(`/users/${cod}`)
             .then((response) => {
                 setId(response.data.id);
@@ -131,6 +150,7 @@ const ListaUsuario: React.FC = () => {
     }
     async function pegaUserView(cod: any) {
         setStatus(true)
+        setLimpa(true)
         await api.get(`/users/${cod}`)
             .then((response) => {
                 setId(response.data.id);
@@ -138,47 +158,31 @@ const ListaUsuario: React.FC = () => {
                 setUsername(response.data.username);
                 setRoles(response.data.roles[0].id);
                 setState(response.data.state)
-                if (state === 'Ativo') {
-                    setcheckeds(true)
-                } else if (state === 'Inativo') {
-                    setcheckeds(false)
-                }
-                console.log(response.data.state)
-                console.log(checkeds)
                 setShow(true);
             });
     }
 
-    const handleSubmit = useCallback(
-        async (e) => {
-            e.preventDefault();
-            if (id) {
-                await api.put(`/users/${id}`, {
-                    name,
-                    username,
-                    password,
-                    roles,
-                    state,
-                })
-            } else {
-                console.log(
-                    name,
-                    username,
-                    password,
-                    roles,
-                    state)
-                /* await api.post("/users", {
-                     name,
-                     username,
-                     password,
-                     roles,
-                     state,
-                 });*/
-            }
-
-            // window.location.reload();
-        }, [name, username, password, roles, id, state]
-    );
+    async function alteraUsuario(cod: any) {
+        await api.put(`/users/${cod}`, {
+            name,
+            username,
+            password,
+            roles,
+            state,
+        });
+        toast.success('Usuário alterado com sucesso!')
+    }
+    async function adicionaUsuario() {
+        await api.post("/users", {
+            name,
+            username,
+            password,
+            roles,
+            state,
+        });
+        toast.success('Usuário salvo com sucesso!')
+        setTimeout(() => { window.location.reload(); }, 3500);
+    }
 
     return (
         <div className="user_container">
@@ -291,7 +295,7 @@ const ListaUsuario: React.FC = () => {
                     <Modal.Title>Cadastro de Usuário</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form onSubmit={handleSubmit}>
+                    <Form onSubmit={validaFormulario}>
                         <Form.Group >
                             <Form.Label>Nome</Form.Label>
                             <Form.Control
@@ -347,13 +351,14 @@ const ListaUsuario: React.FC = () => {
                                 label={state === "" ? "Status: Ativo ou Inativo" : state}
                                 type="checkbox"
                                 onChange={handelChecked}
-                                checked={checkeds}
+                                checked={state === 'Ativo' ? true : false}
                                 disabled={status}
                             />
                         </div>
+                        <div className={`alert alert-danger ${mostrarError}`}>{erro}</div>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={handleClose} >Cancela</Button>
-                            <Button variant="primary" type="submit" disabled={status} onClick={handleClose}>Salvar</Button>
+                            <Button variant="primary" type="submit" disabled={status} >Salvar</Button>
                         </Modal.Footer>
                     </Form>
                 </Modal.Body>

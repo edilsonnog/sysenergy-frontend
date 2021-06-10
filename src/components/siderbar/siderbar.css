@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Coming+Soon&display=swap');
 #sidebar {
     background: #020509;
     grid-area: sidebar;
@@ -27,7 +28,6 @@
 
 .sidebar__title {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     color: #f3f4f6;
     margin-bottom: 30px;
@@ -36,6 +36,7 @@
   .sidebar__img {
     display: flex;
     align-items: center;
+    padding: 0 10px;
   }
   
   .sidebar__title > div > img {
@@ -44,10 +45,14 @@
     object-fit: contain;
   }
   
-  .sidebar__title > div > h1 {
-    font-size: 18px;
+  .sidebar__title > h1 {
+    font-size: 30px;
     display: inline;
-    margin-left: 15px;
+    align-items: center;
+    margin-top: 15px;
+    font-family: 'Coming Soon', cursive;
+    color: #FFF;
+    font-weight: bold;
   }
   
   .sidebar__title > i {

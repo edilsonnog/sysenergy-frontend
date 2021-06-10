@@ -30,8 +30,8 @@ const Sidebar = ({ sidebarOpen, closeSidebar }) => {
       <div className="sidebar__title">
         <div className="sidebar__img">
           <img src={logo} alt="logo" />
-          <h1>SysEnergy</h1>
         </div>
+        <h1>SysEnergy</h1>
         <i onClick={() => closeSidebar()} id="sidebarIcon" aria-hidden="true">
           <FontAwesomeIcon icon={faTimes} />
         </i>
