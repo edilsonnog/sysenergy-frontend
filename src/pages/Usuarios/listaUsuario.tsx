@@ -18,6 +18,9 @@ interface UsuariosData {
     roles: string;
     description: string;
     state: string;
+    UsuarioInc: string;
+    UsuarioAlt: string;
+    Altcreated_at: number;
 }
 interface RolesData {
     id: string;
@@ -47,6 +50,11 @@ const ListaUsuario: React.FC = () => {
     const [password, setPassword] = useState("");
     const [state, setState] = useState("");
     const [roles, setRoles] = useState("");
+    const [UsuarioInc, setUsuarioInc] = useState<string | null>("")
+    const [UsuarioAlt, setUsuarioAlt] = useState<string | null>("")
+    const [Altcreated_at, setAltcreated_at] = useState(0)
+
+    const userLogado = localStorage.getItem("UserLogado")
 
     useEffect(() => {
         async function loadUsuarios() {
@@ -163,22 +171,28 @@ const ListaUsuario: React.FC = () => {
     }
 
     async function alteraUsuario(cod: any) {
+        setUsuarioAlt(userLogado)
+        setAltcreated_at(Date.now)
         await api.put(`/users/${cod}`, {
             name,
             username,
             password,
             roles,
             state,
+            UsuarioAlt,
+            Altcreated_at,
         });
         toast.success('Usuário alterado com sucesso!')
     }
     async function adicionaUsuario() {
+        setUsuarioInc(userLogado)
         await api.post("/users", {
             name,
             username,
             password,
             roles,
             state,
+            UsuarioInc,
         });
         toast.success('Usuário salvo com sucesso!')
         setTimeout(() => { window.location.reload(); }, 3500);
