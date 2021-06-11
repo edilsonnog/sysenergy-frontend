@@ -93,7 +93,7 @@ const Sidebar = ({ sidebarOpen, closeSidebar }) => {
             <a href="/usuarios">Usuários</a>
           </div>
         </PermissionComponent>
-        <PermissionComponent role="ROLE_ADMIN">
+        <PermissionComponent role="ROLE_MASTER">
           <div className="sidebar__link">
             <i>
               <FontAwesomeIcon icon={faUsersCog} />
@@ -101,7 +101,7 @@ const Sidebar = ({ sidebarOpen, closeSidebar }) => {
             <a href="/roles">Perfis</a>
           </div>
         </PermissionComponent>
-        <PermissionComponent role="ROLE_ADMIN">
+        <PermissionComponent role="ROLE_MASTER">
           <div className="sidebar__link">
             <i>
               <FontAwesomeIcon icon={faUserCog} />
