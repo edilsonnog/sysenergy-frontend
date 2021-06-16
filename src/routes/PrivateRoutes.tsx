@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Redirect, Route, RouteProps } from 'react-router-dom';
+import { Redirect, Route, RouteProps } from 'react-router';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 
-interface RoutesPropsData extends RouteProps {
+export interface RoutesPropsData extends RouteProps {
     role?: string;
 }
 
