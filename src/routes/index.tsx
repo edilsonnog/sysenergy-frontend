@@ -17,7 +17,6 @@ const Routes = () => {
             <PrivateRoutes path="/roles" component={ListaRoles} role="ROLE_ADMIN" />
         </Switch>
     )
-
 }
 
 export default Routes;
