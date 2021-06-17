@@ -5,9 +5,11 @@ import api from '../services/api';
 
 interface RoutesPropsData extends RouteProps {
     role?: string;
+    component: React.FC;
+    path: string;
 }
 
-const PrivateRoutes: React.FC<RoutesPropsData> = ({ role, ...rest }) =>  {
+const PrivateRoutes: React.FC<RoutesPropsData> = ({ component, path, role, ...rest }) =>  {
     const [permissions, setPermissions] = useState([] as string[]);
     useEffect(() => {
         async function loadRoles() {
@@ -27,7 +29,7 @@ const PrivateRoutes: React.FC<RoutesPropsData> = ({ role, ...rest }) =>  {
     if (!role && userLogged()){
         return <Route {...rest} />;
     }
-    return  permissions ? (<Route {...rest} />) : <Redirect to='/' />;
+    return  permissions ? (<Route path={path} component={component} {...rest} />) : <Redirect to='/' />;
 }
 
 export default PrivateRoutes;
