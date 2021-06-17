@@ -5,6 +5,8 @@ import api from '../services/api';
 
 interface RoutesPropsData extends RouteProps {
     role?: string;
+    path: string; 
+    component: () => Element;
 }
 
 const PrivateRoutes: React.FC<RoutesPropsData> = ({ role, ...rest }) => {

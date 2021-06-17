@@ -7,6 +7,7 @@ import ListaUsuario from "../pages/Usuarios/listaUsuario";
 import PrivateRoutes from "./PrivateRoutes";
 
 const Routes = () => {
+    
     return (
         <Switch>
             <Route path="/" exact component={Login} />
