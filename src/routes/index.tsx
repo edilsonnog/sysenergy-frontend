@@ -6,8 +6,6 @@ import ListaRoles from "../pages/Usuarios/listaRoles";
 import ListaUsuario from "../pages/Usuarios/listaUsuario";
 import PrivateRoutes from "./PrivateRoutes";
 
-
-
 const Routes = () => {
     return (
         <Switch>
