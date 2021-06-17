@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, RouteProps } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 
-const PrivateRoutes: React.FC<{
+interface RoutesPropsData extends RouteProps {
     role?: string;
     component: React.FC;
     path: string;
-}> = ({ component, path, role, ...rest }) => {
+}
+
+const PrivateRoutes: React.FC<RoutesPropsData> = ({ component, path, role, ...rest }) => {
     const [permissions, setPermissions] = useState([] as string[]);
     useEffect(() => {
         async function loadRoles() {
