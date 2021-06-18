@@ -7,27 +7,27 @@ const PrivateRoutes: React.FC<{
     role?: string;
     component: React.FC;
     path: string;
-}> = ({ component, path, role, ...rest }) => {
+}> = (props, {...rest }) => {
     const [permissions, setPermissions] = useState([] as string[]);
     useEffect(() => {
         async function loadRoles() {
             const response = api.get('/users/roles');
             const findRole = (await response).data.some((r: string) =>
-                role?.split(",").includes(r));
+                props.role?.split(",").includes(r));
             setPermissions(findRole);
         }
         loadRoles();
-    }, [role])
+    }, [props.role])
     const { userLogged } = useAuth();
 
     if (!userLogged()) {
-        return <Redirect to="/" />;
+        return <Redirect to="/dashboard" />;
     }
 
-    if (!role && userLogged()) {
+    if (!props.role && userLogged()) {
         return <Route {...rest} />;
     }
-    return permissions ? (<Route path={path} component={component} {...rest} />) : <Redirect to='/' />;
+    return permissions ? (<Route path={props.path} component={props.component} {...rest} />) : <Redirect to='/dashboard' />;
 }
 
 export default PrivateRoutes;
