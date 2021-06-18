@@ -1,4 +1,5 @@
-import { Route, Switch } from "react-router";
+
+import { Route, Switch } from "react-router-dom";
 import Dashboard from "../pages/Dashboard/dashboard";
 import Login from "../pages/Login";
 import ListaPermissoes from "../pages/Usuarios/listaPermissoes";

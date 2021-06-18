@@ -4,7 +4,8 @@ import loginIcon from '../../images/user.svg'
 import uiImg from "../../images/login.svg";
 import './login.css'
 import { useAuth } from '../../context/AuthContext';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
+
 
 
 const Login: React.FC = () => {
