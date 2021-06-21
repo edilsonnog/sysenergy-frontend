@@ -5,11 +5,11 @@ import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'antd/dist/antd.css'
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter as Router} from 'react-router-dom';
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <AuthProvider>
         <Routes />
         <ToastContainer
@@ -24,7 +24,7 @@ function App() {
           pauseOnHover={false}
         />
       </AuthProvider>
-    </BrowserRouter>
+    </Router>
   );
 }
 
