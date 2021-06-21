@@ -1,40 +1,41 @@
 import React, { useEffect, useState } from 'react'
-import { Redirect, Route, useLocation } from 'react-router-dom';
+import { Redirect, Route as ReactDOMRoute, RouteProps as ReactDOMRouteProps } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 
-const PrivateRoutes: React.FC<{
+interface RouteProps extends ReactDOMRouteProps {
     role?: string;
-    component: React.FC;
     path: string;
-}> = (props, { ...rest }) => {
+    component: React.ComponentType;
+}
+
+const PrivateRoutes: React.FC<RouteProps> = ({role, component: Component, ...rest }) => {
     const [permissions, setPermissions] = useState([] as string[]);
-    const location = useLocation();
     useEffect(() => {
         async function loadRoles() {
             const response = api.get('/users/roles');
             const findRole = (await response).data.some((r: string) =>
-                props.role?.split(",").includes(r));
+                role?.split(",").includes(r));
             setPermissions(findRole);
         }
         loadRoles();
-    }, [props.role])
+    }, [role])
     const { userLogged } = useAuth();
 
     if (!userLogged()) {
         return <Redirect to="/dashboard" />;
     }
 
-    if (!props.role && userLogged()) {
-        return <Route {...rest} />;
+    if (!role && userLogged()) {
+        return <ReactDOMRoute {...rest} />;
     }
-    return <Route {...rest}>
+    return <ReactDOMRoute {...rest}>
         {permissions ?
-            <props.component />
+            <Component />
             :
-            <Redirect to={{ pathname: "/dashboard", state: { from: location } }} />
+            <Redirect to="/dashboard" />
         }
-    </Route>
+    </ReactDOMRoute>
     //permissions ? (<Route path={props.path} component={props.component} />) : <Redirect to='/dashboard' />;
 }
 
