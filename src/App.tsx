@@ -1,14 +1,12 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { AuthProvider } from './context/AuthContext';
-import { BrowserRouter } from 'react-router-dom';
 import Routes from './routes';
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
-    <BrowserRouter>
       <AuthProvider>
         <Routes />
         <ToastContainer
@@ -23,7 +21,6 @@ function App() {
           pauseOnHover={false}
         />
       </AuthProvider>
-    </BrowserRouter>
   );
 }
 

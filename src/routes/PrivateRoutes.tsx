@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 
@@ -7,8 +7,9 @@ const PrivateRoutes: React.FC<{
     role?: string;
     component: React.FC;
     path: string;
-}> = (props, {...rest }) => {
+}> = (props, { ...rest }) => {
     const [permissions, setPermissions] = useState([] as string[]);
+    const location = useLocation();
     useEffect(() => {
         async function loadRoles() {
             const response = api.get('/users/roles');
@@ -27,7 +28,14 @@ const PrivateRoutes: React.FC<{
     if (!props.role && userLogged()) {
         return <Route {...rest} />;
     }
-    return permissions ? (<Route path={props.path} component={props.component} />) : <Redirect to='/dashboard' />;
+    return <Route {...rest}>
+        {permissions ?
+            <props.component />
+            :
+            <Redirect to={{ pathname: "/dashboard", state: { from: location } }} />
+        }
+    </Route>
+    //permissions ? (<Route path={props.path} component={props.component} />) : <Redirect to='/dashboard' />;
 }
 
 export default PrivateRoutes;

@@ -13,10 +13,7 @@ const Routes = () => {
         <Switch>
             <Route path="/" exact component={Login} />
             <PrivateRoutes path="/dashboard"  component={Dashboard} role="ROLE_ADMIN" />
-            {/*<PrivateRoutes path="/usuarios"  component={ListaUsuario} role="ROLE_ADMIN" />*/}
-            <Route path="/usuarios">
-                <ListaUsuario />
-            </Route>
+            <PrivateRoutes path="/usuarios"  component={ListaUsuario} role="ROLE_ADMIN" />
             <PrivateRoutes path="/permissoes" component={ListaPermissoes} role="ROLE_ADMIN" />
             <PrivateRoutes path="/roles" component={ListaRoles} role="ROLE_ADMIN" />
         </Switch>
