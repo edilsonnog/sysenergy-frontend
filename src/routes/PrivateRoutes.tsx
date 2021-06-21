@@ -27,7 +27,7 @@ const PrivateRoutes: React.FC<{
     if (!props.role && userLogged()) {
         return <Route {...rest} />;
     }
-    return permissions ? (<Route {...props} />) : <Redirect to='/dashboard' />;
+    return permissions ? (<Route path={props.path} component={props.component} />) : <Redirect to='/dashboard' />;
 }
 
 export default PrivateRoutes;
