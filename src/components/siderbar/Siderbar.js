@@ -17,13 +17,17 @@ import {
   faUtensils,
 } from "@fortawesome/free-solid-svg-icons";
 import PermissionComponent from "../PermissionComponent";
+import { useAuth } from '../../context/AuthContext';
 
 const Sidebar = ({ sidebarOpen, closeSidebar }) => {
+
+  const { signOut } = useAuth();
+
   function logOut() {
-    localStorage.clear();
+    signOut();
   }
 
-  const userLogado = localStorage.getItem("UserLogado")
+  const userLogado = localStorage.getItem("@SGP:user")
 
   return (
     <div className={sidebarOpen ? "sidebar-responsive" : ""} id="sidebar">

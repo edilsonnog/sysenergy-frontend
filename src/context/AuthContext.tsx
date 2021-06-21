@@ -6,6 +6,7 @@ interface AuthContextState {
     token: TokenState;
     signIn({ username, password }: UserData): Promise<void>;
     userLogged(): boolean;
+    signOut(): void;
 }
 
 interface UserData {
@@ -28,6 +29,14 @@ const AuthProvider: React.FC = ({ children }) => {
         }
         return {} as TokenState;
     });
+
+    const signOut = useCallback(() => {
+        localStorage.removeItem('@SysEnergy:token');
+        localStorage.removeItem('@SGP:user');
+    
+        setToken({} as TokenState);
+      }, []);
+
     const signIn = useCallback(async ({ username, password }: UserData) => {
         try {
             const response = await api.post("/sessions", { username, password });
@@ -36,7 +45,7 @@ const AuthProvider: React.FC = ({ children }) => {
             const { state } = user;
             if (state === 'Ativo') {
                 const { name } = user;
-                localStorage.setItem("UserLogado", name)
+                localStorage.setItem('@SGP:user', name)
                 setToken(token);
                 localStorage.setItem("@SysEnergy:token", token);
                 api.defaults.headers.authorization = `Bearer ${token}`;
@@ -58,7 +67,7 @@ const AuthProvider: React.FC = ({ children }) => {
     }, [])
 
     return (
-        <AuthContext.Provider value={{ token, signIn, userLogged }}>
+        <AuthContext.Provider value={{ token, signIn, userLogged, signOut }}>
             {children}
         </AuthContext.Provider>
     )
