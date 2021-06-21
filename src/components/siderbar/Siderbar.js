@@ -49,7 +49,7 @@ const Sidebar = ({ sidebarOpen, closeSidebar }) => {
           <i>
             <FontAwesomeIcon icon={faMinusSquare} />
           </i>
-          <a href="/dashboard">Home</a>
+          <a href="/#/dashboard">Home</a>
         </div>
         <PermissionComponent role="ROLE_ADMIN,ROLE_USER">
           <h2>ADMIN</h2>
@@ -94,7 +94,7 @@ const Sidebar = ({ sidebarOpen, closeSidebar }) => {
             <i>
               <FontAwesomeIcon icon={faUserCircle} />
             </i>
-            <a href="/usuarios">Usuários</a>
+            <a href="/#/usuarios">Usuários</a>
           </div>
         </PermissionComponent>
         <PermissionComponent role="ROLE_MASTER">
@@ -102,7 +102,7 @@ const Sidebar = ({ sidebarOpen, closeSidebar }) => {
             <i>
               <FontAwesomeIcon icon={faUsersCog} />
             </i>
-            <a href="/roles">Perfis</a>
+            <a href="/#/roles">Perfis</a>
           </div>
         </PermissionComponent>
         <PermissionComponent role="ROLE_MASTER">
@@ -110,7 +110,7 @@ const Sidebar = ({ sidebarOpen, closeSidebar }) => {
             <i>
               <FontAwesomeIcon icon={faUserCog} />
             </i>
-            <a href="/permissoes">Permissões</a>
+            <a href="/#/permissoes">Permissões</a>
           </div>
         </PermissionComponent>
         <div className="sidebar__link" style={{ display: "none" }}>
