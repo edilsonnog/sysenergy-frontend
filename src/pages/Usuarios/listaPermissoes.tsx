@@ -128,7 +128,7 @@ const ListaPermissoes: React.FC = () => {
                         <>
                             <InputGroup className="col-md-3 mb-3 inp">
                                 <InputGroup.Text id="basic-addon1">Busca :</InputGroup.Text>
-                                <FormControl className="col-md-12"
+                                <FormControl className="col-md-3"
                                     placeholder="Digite sua Buscar"
                                     value={busca}
                                     onChange={(ev) => setBusca(ev.target.value)}
